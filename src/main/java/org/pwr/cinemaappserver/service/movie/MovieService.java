@@ -1,4 +1,4 @@
-package org.pwr.cinemaappserver.service.screeningRoom;
+package org.pwr.cinemaappserver.service.movie;
 
 import org.pwr.cinemaappserver.dto.MovieDTO;
 import org.pwr.cinemaappserver.entity.Movies;

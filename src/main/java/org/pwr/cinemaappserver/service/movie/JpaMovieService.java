@@ -1,4 +1,4 @@
-package org.pwr.cinemaappserver.service.screeningRoom;
+package org.pwr.cinemaappserver.service.movie;
 
 import jakarta.transaction.Transactional;
 import org.pwr.cinemaappserver.dto.MovieDTO;

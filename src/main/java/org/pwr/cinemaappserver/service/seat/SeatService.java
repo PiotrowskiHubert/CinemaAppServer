@@ -1,2 +1,20 @@
-package org.pwr.cinemaappserver.service.seat;public class SeatService {
+package org.pwr.cinemaappserver.service.seat;
+
+import org.pwr.cinemaappserver.entity.Seat;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class SeatService {
+    private final ISeatService seatService;
+
+    public SeatService(ISeatService seatService) {
+        this.seatService = seatService;
+    }
+
+    public Optional<List<Seat>> getSeatsByScreeningRoomName(String screeningRoomName) {
+        return seatService.getSeatsByScreeningRoomName(screeningRoomName);
+    }
 }
