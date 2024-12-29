@@ -28,8 +28,13 @@ public class ScreeningRoomController {
         return ResponseEntity.ok(screeningRoomService.addScreeningRoom(name, numOfSeats));
     }
 
-    @GetMapping("/screening-room-find-by-name")
+    @GetMapping("/screening-room-find-seats-by-name")
     public ResponseEntity<Optional<List<Seat>>> getSeatsForScreeningRoom(@RequestParam String name) {
         return ResponseEntity.ok(seatService.getSeatsByScreeningRoomName(name));
+    }
+
+    @GetMapping("/screening-room-find-by-name")
+    public ResponseEntity<List<ScreeningRoom>> getScreeningRoomByName(@RequestParam String name) {
+        return ResponseEntity.ok(screeningRoomService.getScreeningRoomByName(name));
     }
 }

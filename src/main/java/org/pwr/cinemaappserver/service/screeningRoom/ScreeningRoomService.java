@@ -45,4 +45,10 @@ public class ScreeningRoomService {
         return screeningRoomService.findByName(newScreeningRoom.getName()).get();
     }
 
+    public LinkedList<ScreeningRoom> getScreeningRoomByName(String name) {
+        LinkedList<ScreeningRoom> screeningRooms = new LinkedList<>();
+        screeningRooms.add(screeningRoomService.findByName(name).get());
+        return screeningRooms;
+    }
+
 }
