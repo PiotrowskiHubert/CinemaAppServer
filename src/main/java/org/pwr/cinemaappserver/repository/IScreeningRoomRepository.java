@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface IScreeningRoomRepository extends JpaRepository<ScreeningRoom, Long> {
     Optional<ScreeningRoom> findByName(String name);
+    void deleteByName(String name);
+    Optional<ScreeningRoom> findById(Long id);
 }

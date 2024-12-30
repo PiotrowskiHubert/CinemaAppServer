@@ -5,12 +5,10 @@ import org.pwr.cinemaappserver.entity.Seat;
 import org.pwr.cinemaappserver.service.screeningRoom.ScreeningRoomService;
 import org.pwr.cinemaappserver.service.seat.SeatService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,18 +21,29 @@ public class ScreeningRoomController {
         this.seatService = seatService;
     }
 
-    @PostMapping("/screening-room")
+    @PostMapping("/add-screening-room")
     public ResponseEntity<ScreeningRoom> addScreeningRoom(@RequestParam String name, @RequestParam int numOfSeats) {
         return ResponseEntity.ok(screeningRoomService.addScreeningRoom(name, numOfSeats));
     }
 
-    @GetMapping("/screening-room-find-seats-by-name")
-    public ResponseEntity<Optional<List<Seat>>> getSeatsForScreeningRoom(@RequestParam String name) {
-        return ResponseEntity.ok(seatService.getSeatsByScreeningRoomName(name));
+    @GetMapping("/find-screening-room-by-name")
+    public ResponseEntity<Optional<ScreeningRoom>> getScreeningRoomByName(@RequestParam String name) {
+        return ResponseEntity.ok(screeningRoomService.getScreeningRoomByName(name));
     }
 
-    @GetMapping("/screening-room-find-by-name")
-    public ResponseEntity<List<ScreeningRoom>> getScreeningRoomByName(@RequestParam String name) {
-        return ResponseEntity.ok(screeningRoomService.getScreeningRoomByName(name));
+    @GetMapping("/delete-screening-room-by-name")
+    public ResponseEntity<Void> deleteScreeningRoomByName(@RequestParam String name) {
+        screeningRoomService.deleteScreeningRoomByName(name);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-all-screening-rooms")
+    public ResponseEntity<List<ScreeningRoom>> getAllScreeningRooms() {
+        return ResponseEntity.ok(screeningRoomService.getAllScreeningRooms());
+    }
+
+    @PatchMapping("/update-screening-room")
+    public ResponseEntity<ScreeningRoom> updateScreeningRoom(@RequestParam Long id, @RequestBody Map<String, Object> updates){
+        return screeningRoomService.patchUpdate(id, updates);
     }
 }

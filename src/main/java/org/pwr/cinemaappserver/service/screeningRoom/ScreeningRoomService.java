@@ -8,9 +8,13 @@ import org.pwr.cinemaappserver.repository.IScreeningRoomRepository;
 import org.pwr.cinemaappserver.repository.ISeatRepository;
 import org.pwr.cinemaappserver.service.seat.ISeatService;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Service
@@ -45,10 +49,19 @@ public class ScreeningRoomService {
         return screeningRoomService.findByName(newScreeningRoom.getName()).get();
     }
 
-    public LinkedList<ScreeningRoom> getScreeningRoomByName(String name) {
-        LinkedList<ScreeningRoom> screeningRooms = new LinkedList<>();
-        screeningRooms.add(screeningRoomService.findByName(name).get());
-        return screeningRooms;
+    public Optional<ScreeningRoom> getScreeningRoomByName(String name) {
+        return screeningRoomService.findByName(name);
     }
 
+    public void deleteScreeningRoomByName(String name) {
+        screeningRoomService.deleteScreeningRoomByName(name);
+    }
+
+    public List<ScreeningRoom> getAllScreeningRooms() {
+        return screeningRoomService.getAllScreeningRooms();
+    }
+
+    public ResponseEntity<ScreeningRoom> patchUpdate(Long id, Map<String, Object> updates) {
+        return ResponseEntity.ok(screeningRoomService.patchUpdate(id, updates));
+    }
 }

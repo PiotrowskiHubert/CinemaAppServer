@@ -1,6 +1,6 @@
 package org.pwr.cinemaappserver.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,22 +12,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seats")
-public class Seat {
-
+@Table(name = "showings")
+public class Showing {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "movie_id", nullable = false)
+    @JsonManagedReference
+    private Movie movie;
+
+    @ManyToOne
     @JoinColumn(name = "screening_room_id", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
     private ScreeningRoom screeningRoom;
 
-    @Column(name = "seat_number", nullable = false)
-    private int seatNumber;
-
-    @Column(name = "is_available", nullable = false)
-    private boolean isAvailable;
+    private String startTime;
 }

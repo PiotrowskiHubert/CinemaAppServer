@@ -34,8 +34,12 @@ public class JpaSeatService implements ISeatService {
 
     @Override
     public Optional<List<Seat>> getSeatsByScreeningRoomName(String screeningRoomName) {
-        final ScreeningRoom screeningRoom = screeningRoomRepository.findByName(screeningRoomName).get();
-        return seatRepository.findAllByScreeningRoom(screeningRoom);
+        final Optional<ScreeningRoom> screeningRoom = screeningRoomRepository.findByName(screeningRoomName);
+        if (screeningRoom.isPresent()){
+            return seatRepository.findAllByScreeningRoom(screeningRoom.get());
+        }else {
+            return Optional.empty();
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package org.pwr.cinemaappserver.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,11 @@ public class ScreeningRoom {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @OneToMany(mappedBy = "screeningRoom")
+    @JsonBackReference
+    private List<Showing> showings = new ArrayList<>();
+
     @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // Dodaj tę adnotację
+    @JsonManagedReference
     private List<Seat> seats = new ArrayList<>();
 }

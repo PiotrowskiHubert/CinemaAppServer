@@ -10,5 +10,4 @@ import lombok.Data;
 @AllArgsConstructor
 public class MovieDTO {
     private String title;
-    private String time;
 }
