@@ -1,5 +1,7 @@
 package org.pwr.cinemaappserver.service.showing;
 
+import org.pwr.cinemaappserver.entity.ScreeningRoom;
+import org.pwr.cinemaappserver.entity.Seat;
 import org.pwr.cinemaappserver.entity.Showing;
 import org.pwr.cinemaappserver.repository.IShowingRepository;
 import org.springframework.context.annotation.Primary;
@@ -47,10 +49,41 @@ public class JpaShowingService implements IShowingService {
                             case "startTime":
                                 existingShowing.setStartTime((String) value);
                                 break;
+                            case "screeningRoom":
+                                Map<String, Object> screeningRoomUpdates = (Map<String, Object>) value;
+                                updateScreeningRoom(existingShowing.getScreeningRoom(), screeningRoomUpdates);
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Unknown key: " + key);
                         }
                     });
                     return showingRepository.save(existingShowing);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Showing with id: " + id + " not found"));
+    }
+
+    private void updateScreeningRoom(ScreeningRoom screeningRoom, Map<String, Object> updates) {
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "seats":
+                    List<Map<String, Object>> seatUpdates = (List<Map<String, Object>>) value;
+                    updateSeatsAvailability(screeningRoom.getSeats(), seatUpdates);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown key: " + key);
+            }
+        });
+    }
+
+    private void updateSeatsAvailability(List<Seat> seats, List<Map<String, Object>> seatUpdates) {
+        seatUpdates.forEach(seatUpdate -> {
+            Long seatId =((Number) seatUpdate.get("id")).longValue();
+            Boolean isAvailable = (Boolean) seatUpdate.get("isAvailable");
+
+            seats.stream()
+                    .filter(seat -> seat.getId().equals(seatId))
+                    .findFirst()
+                    .ifPresent(seat -> seat.setAvailable(isAvailable));
+        });
     }
 }

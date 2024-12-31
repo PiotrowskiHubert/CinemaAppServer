@@ -57,6 +57,6 @@ public class ShowingService {
     }
 
     public Showing patchUpdateShowingById(Long id, Map<String, Object> updates) {
-        showingService.patchUpdateShowingById(id, updates);
+        return showingService.patchUpdateShowingById(id, updates);
     }
 }
