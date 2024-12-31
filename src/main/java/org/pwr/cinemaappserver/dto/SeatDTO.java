@@ -10,7 +10,7 @@ import org.pwr.cinemaappserver.entity.ScreeningRoom;
 @Builder
 @AllArgsConstructor
 public class SeatDTO {
-    private ScreeningRoom screeningRoom;
+//    private ScreeningRoom screeningRoom;
     private int seatNumber;
     private boolean isAvailable;
 }

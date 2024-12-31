@@ -10,7 +10,5 @@ import java.util.Optional;
 
 @Service
 public interface ISeatService {
-    Seat add(SeatDTO newSeat);
-
-    Optional<List<Seat>> getSeatsByScreeningRoomName(String screeningRoomName);
+    Seat add(Seat Seat);
 }

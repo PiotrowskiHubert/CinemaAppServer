@@ -29,24 +29,25 @@ public class ScreeningRoomService {
 
     public ScreeningRoom addScreeningRoom(String name, int numOfSeats) {
         ScreeningRoomDTO newScreeningRoom = ScreeningRoomDTO.builder()
+                .numOfSeats(numOfSeats)
                 .name(name)
                 .build();
-        screeningRoomService.add(newScreeningRoom);
+        return screeningRoomService.add(newScreeningRoom);
 
-        final ScreeningRoom screeningRoom = screeningRoomService.findByName(newScreeningRoom.getName()).get();
+//        final ScreeningRoom screeningRoom = screeningRoomService.findByName(newScreeningRoom.getName()).get();
 
-        for (int i = 0; i < numOfSeats; i++) {
-            SeatDTO seat = SeatDTO.builder()
-                    .screeningRoom(screeningRoom)
-                    .seatNumber(i + 1)
-                    .isAvailable(true)
-                    .build();
-            seatService.add(seat);
-        }
+//        for (int i = 0; i < numOfSeats; i++) {
+//            SeatDTO seat = SeatDTO.builder()
+//                    .screeningRoom(screeningRoom)
+//                    .seatNumber(i + 1)
+//                    .isAvailable(true)
+//                    .build();
+//            seatService.add(seat);
+//        }
 
-        screeningRoom.setSeats(seatService.getSeatsByScreeningRoomName(screeningRoom.getName()).get());
+//        screeningRoom.setSeats(seatService.getSeatsByScreeningRoomName(screeningRoom.getName()).get());
 
-        return screeningRoomService.findByName(newScreeningRoom.getName()).get();
+//        return screeningRoomService.findByName(newScreeningRoom.getName()).get();
     }
 
     public Optional<ScreeningRoom> getScreeningRoomByName(String name) {

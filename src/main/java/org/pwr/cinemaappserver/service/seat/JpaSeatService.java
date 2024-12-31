@@ -15,31 +15,14 @@ import java.util.Optional;
 @Primary
 public class JpaSeatService implements ISeatService {
     private final ISeatRepository seatRepository;
-    private final IScreeningRoomRepository screeningRoomRepository;
 
-    public JpaSeatService(ISeatRepository seatRepository, IScreeningRoomRepository screeningRoomRepository) {
+    public JpaSeatService(ISeatRepository seatRepository) {
         this.seatRepository = seatRepository;
-        this.screeningRoomRepository = screeningRoomRepository;
     }
 
     @Override
-    public Seat add(SeatDTO newSeat) {
-        final Seat seat = Seat.builder()
-                .screeningRoom(newSeat.getScreeningRoom())
-                .seatNumber(newSeat.getSeatNumber())
-                .isAvailable(newSeat.isAvailable())
-                .build();
+    public Seat add(Seat seat) {
         return seatRepository.save(seat);
-    }
-
-    @Override
-    public Optional<List<Seat>> getSeatsByScreeningRoomName(String screeningRoomName) {
-        final Optional<ScreeningRoom> screeningRoom = screeningRoomRepository.findByName(screeningRoomName);
-        if (screeningRoom.isPresent()){
-            return seatRepository.findAllByScreeningRoom(screeningRoom.get());
-        }else {
-            return Optional.empty();
-        }
     }
 }
 

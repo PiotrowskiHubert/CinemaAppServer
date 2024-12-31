@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -30,4 +33,8 @@ public class Showing {
     private ScreeningRoom screeningRoom;
 
     private String startTime;
+
+    @OneToMany(mappedBy = "showing", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Seat> seats = new ArrayList<>();
 }

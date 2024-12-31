@@ -31,7 +31,5 @@ public class ScreeningRoom {
     @JsonBackReference
     private List<Showing> showings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "screeningRoom", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Seat> seats = new ArrayList<>();
+    private int numOfSeats;
 }

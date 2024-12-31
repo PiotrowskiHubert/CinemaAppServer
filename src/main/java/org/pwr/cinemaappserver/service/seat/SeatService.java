@@ -14,7 +14,7 @@ public class SeatService {
         this.seatService = seatService;
     }
 
-    public Optional<List<Seat>> getSeatsByScreeningRoomName(String screeningRoomName) {
-        return seatService.getSeatsByScreeningRoomName(screeningRoomName);
+    public Seat add(Seat seat) {
+        return seatService.add(seat);
     }
 }

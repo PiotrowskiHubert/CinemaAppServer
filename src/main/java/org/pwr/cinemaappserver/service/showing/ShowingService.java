@@ -2,12 +2,15 @@ package org.pwr.cinemaappserver.service.showing;
 
 import org.pwr.cinemaappserver.entity.Movie;
 import org.pwr.cinemaappserver.entity.ScreeningRoom;
+import org.pwr.cinemaappserver.entity.Seat;
 import org.pwr.cinemaappserver.entity.Showing;
 import org.pwr.cinemaappserver.service.movie.IMovieService;
 import org.pwr.cinemaappserver.service.screeningRoom.IScreeningRoomService;
+import org.pwr.cinemaappserver.service.seat.SeatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,11 +20,13 @@ public class ShowingService {
     private final IShowingService showingService;
     private final IMovieService movieService;
     private final IScreeningRoomService screeningRoomService;
+    private final SeatService seatService;
 
-    public ShowingService(IShowingService showingService, IMovieService movieService, IScreeningRoomService screeningRoomService) {
+    public ShowingService(IShowingService showingService, IMovieService movieService, IScreeningRoomService screeningRoomService, SeatService seatService) {
         this.showingService = showingService;
         this.movieService = movieService;
         this.screeningRoomService = screeningRoomService;
+        this.seatService = seatService;
     }
 
     public ResponseEntity<Showing> addShowing(String movieTitle,String screeningRoomName, String startTime) {
@@ -40,16 +45,26 @@ public class ShowingService {
                 .screeningRoom(screeningRoom.get())
                 .startTime(startTime)
                 .build();
+        Showing savedShowing = showingService.add(showing);
 
-        return ResponseEntity.ok(showingService.add(showing));
+        List<Seat> seats = new LinkedList<>();
+        for (int i = 0; i < screeningRoom.get().getNumOfSeats(); i++) {
+            Seat seat = Seat.builder()
+                    .seatNumber(i + 1)
+                    .isAvailable(true)
+                    .showing(savedShowing)
+                    .build();
+            seats.add(seat);
+            seatService.add(seat);
+        }
+        savedShowing.setSeats(seats);
+        movie.get().getShowings().add(savedShowing);
+        screeningRoom.get().getShowings().add(savedShowing);
+        return ResponseEntity.ok(showing);
     }
 
     public ResponseEntity<List<Showing>> getAllShowings() {
         return showingService.getAllShowings();
-    }
-
-    public void deleteShowing(String movieTitle, String screeningRoomName, String startTime) {
-        showingService.deleteShowing(movieTitle, screeningRoomName, startTime);
     }
 
     public void deleteShowingById(Long id) {

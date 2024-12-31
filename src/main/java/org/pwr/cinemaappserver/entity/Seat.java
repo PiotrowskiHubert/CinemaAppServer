@@ -14,16 +14,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "seats")
 public class Seat {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "screening_room_id", nullable = false)
+    @JoinColumn(name = "showing_id", nullable = false)
     @JsonBackReference
-    private ScreeningRoom screeningRoom;
+    private Showing showing;
 
     @Column(name = "seat_number", nullable = false)
     private int seatNumber;

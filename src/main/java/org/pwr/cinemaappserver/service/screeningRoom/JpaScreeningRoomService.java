@@ -23,6 +23,7 @@ public class JpaScreeningRoomService implements IScreeningRoomService {
     @Override
     public ScreeningRoom add(ScreeningRoomDTO newScreeningRoom) {
         ScreeningRoom screeningRoom = ScreeningRoom.builder()
+                .numOfSeats(newScreeningRoom.getNumOfSeats())
                 .name(newScreeningRoom.getName())
                 .build();
         return screeningRoomRepository.save(screeningRoom);

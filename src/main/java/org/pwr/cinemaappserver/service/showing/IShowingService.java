@@ -11,7 +11,6 @@ import java.util.Map;
 public interface IShowingService {
     Showing add(Showing showing);
     ResponseEntity<List<Showing>> getAllShowings();
-    void deleteShowing(String movieTitle, String screeningRoomName, String startTime);
     void deleteShowingById(Long id);
     Showing patchUpdateShowingById(Long id, Map<String, Object> updates);
 }

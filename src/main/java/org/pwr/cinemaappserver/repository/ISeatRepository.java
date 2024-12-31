@@ -10,5 +10,4 @@ import java.util.Optional;
 
 @Repository
 public interface ISeatRepository extends JpaRepository<Seat, Long> {
-    Optional<List<Seat>> findAllByScreeningRoom(ScreeningRoom screeningRoom);
 }

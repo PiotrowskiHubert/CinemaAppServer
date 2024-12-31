@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IShowingRepository extends JpaRepository<Showing, Long> {
-    void deleteByMovieTitleAndScreeningRoomNameAndStartTime(String movieTitle, String screeningRoomName, String startTime);
 }

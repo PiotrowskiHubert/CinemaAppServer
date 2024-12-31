@@ -12,4 +12,5 @@ import java.util.LinkedList;
 @AllArgsConstructor
 public class ScreeningRoomDTO {
     private String name;
+    private int numOfSeats;
 }

@@ -31,11 +31,6 @@ public class JpaShowingService implements IShowingService {
     }
 
     @Override
-    public void deleteShowing(String movieTitle, String screeningRoomName, String startTime) {
-        showingRepository.deleteByMovieTitleAndScreeningRoomNameAndStartTime(movieTitle, screeningRoomName, startTime);
-    }
-
-    @Override
     public void deleteShowingById(Long id) {
         showingRepository.deleteById(id);
     }
@@ -49,9 +44,9 @@ public class JpaShowingService implements IShowingService {
                             case "startTime":
                                 existingShowing.setStartTime((String) value);
                                 break;
-                            case "screeningRoom":
-                                Map<String, Object> screeningRoomUpdates = (Map<String, Object>) value;
-                                updateScreeningRoom(existingShowing.getScreeningRoom(), screeningRoomUpdates);
+                            case "seats":
+                                List<Map<String, Object>> seatUpdates = (List<Map<String, Object>>) value;
+                                updateSeatsAvailability(existingShowing.getSeats(), seatUpdates);
                                 break;
                             default:
                                 throw new IllegalArgumentException("Unknown key: " + key);
@@ -62,22 +57,9 @@ public class JpaShowingService implements IShowingService {
                 .orElseThrow(() -> new IllegalArgumentException("Showing with id: " + id + " not found"));
     }
 
-    private void updateScreeningRoom(ScreeningRoom screeningRoom, Map<String, Object> updates) {
-        updates.forEach((key, value) -> {
-            switch (key) {
-                case "seats":
-                    List<Map<String, Object>> seatUpdates = (List<Map<String, Object>>) value;
-                    updateSeatsAvailability(screeningRoom.getSeats(), seatUpdates);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown key: " + key);
-            }
-        });
-    }
-
     private void updateSeatsAvailability(List<Seat> seats, List<Map<String, Object>> seatUpdates) {
         seatUpdates.forEach(seatUpdate -> {
-            Long seatId =((Number) seatUpdate.get("id")).longValue();
+            Long seatId = ((Number) seatUpdate.get("id")).longValue();
             Boolean isAvailable = (Boolean) seatUpdate.get("isAvailable");
 
             seats.stream()
